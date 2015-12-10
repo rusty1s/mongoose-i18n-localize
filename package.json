@@ -1,0 +1,34 @@
+{
+	"name": "mongoose-i18n-localize",
+	"version": "0.1.0",
+	"description": "Mongoose plugin to support i18n and localization",
+	"author": {
+		"name": "Matthias Fey",
+		"email": "matthias.fey@tu-dortmund.de",
+		"url": "https://github.com/rusty1s"
+	},
+	"keywords": [
+		"mongoose",
+		"i18n",
+		"localize",
+		"mongodb"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/rusty1s/mongoose-i18n-localize.git"
+	},
+	"license": "MIT",
+	"readmeFilename": "README.md",
+	"bugs": {
+		"url": "https://github.com/rusty1s/mongoose-i18n-localize/issues"
+	},
+	"main": "index.js",
+	"scripts": {
+		"test": "mocha test"
+	},
+	"devDependencies": {
+		"mongoose": "^4.2.8",
+		"mocha": "^2.3.4",
+		"should": "^7.1.1"
+	}
+}
