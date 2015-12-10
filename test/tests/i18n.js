@@ -227,7 +227,7 @@ module.exports = function() {
 		done();
 	});
 
-	it('should store adopt validation for every i18n field', function(done) {
+	it('should adopt validation for every i18n field', function(done) {
 		var Model = mongoose.model('I18nValidationSchema', helper.createI18nValidationSchema().plugin(mongooseI18n, {
 			locales: ['en', 'de']
 		}));
