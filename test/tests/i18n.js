@@ -53,7 +53,7 @@ module.exports = function() {
 		});
 
 		it('should store i18n fields in nested object', function(done) {
-			var Model = mongoose.model('I18nSchema', helper.createI18nNestedObjectSchema().plugin(mongooseI18n, {
+			var Model = mongoose.model('I18nNestedObjectSchema', helper.createI18nNestedObjectSchema().plugin(mongooseI18n, {
 				locales: ['en', 'de']
 			}));
 
@@ -83,7 +83,7 @@ module.exports = function() {
 		});
 
 		it('should store i18n fields in nested array', function(done) {
-			var Model = mongoose.model('I18nSchema', helper.createI18nNestedArraySchema().plugin(mongooseI18n, {
+			var Model = mongoose.model('I18nNestedArraySchema', helper.createI18nNestedArraySchema().plugin(mongooseI18n, {
 				locales: ['en', 'de']
 			}));
 
@@ -126,7 +126,7 @@ module.exports = function() {
 		});
 
 		it('should store i18n fields in nested nested array', function(done) {
-			var Model = mongoose.model('I18nSchema', helper.createI18nNestedNestedArraySchema().plugin(mongooseI18n, {
+			var Model = mongoose.model('I18nNestedNestedArraySchema', helper.createI18nNestedNestedArraySchema().plugin(mongooseI18n, {
 				locales: ['en', 'de']
 			}));
 
@@ -171,8 +171,8 @@ module.exports = function() {
 		});
 	});
 
-	it('should store i18n fields in nested object schema', function(done) {
-		var Model = mongoose.model('I18nSchema', helper.createI18nNestedSchema().plugin(mongooseI18n));
+	it('should store i18n fields in nested schema', function(done) {
+		var Model = mongoose.model('I18nNestedSchema', helper.createI18nNestedSchema().plugin(mongooseI18n));
 
 		var model = new Model({
 			nested: {
@@ -199,8 +199,8 @@ module.exports = function() {
 		done();
 	});
 
-	it('should store i18n fields in nested object schema', function(done) {
-		var Model = mongoose.model('I18nSchemaaa', helper.createI18nNestedSchemaArray().plugin(mongooseI18n));
+	it('should store i18n fields in nested schema array', function(done) {
+		var Model = mongoose.model('I18nNestedSchemaArray', helper.createI18nNestedSchemaArray().plugin(mongooseI18n));
 
 		var model = new Model({
 			nested: [{
@@ -225,5 +225,51 @@ module.exports = function() {
 		obj.nested[0].name.localized.should.equal('hello');
 
 		done();
+	});
+
+	it('should store adopt validation for every i18n field', function(done) {
+		var Model = mongoose.model('I18nValidationSchema', helper.createI18nValidationSchema().plugin(mongooseI18n, {
+			locales: ['en', 'de']
+		}));
+
+		new Model().save(function(err) {
+			should.exist(err);
+			err.errors['name.en'].kind.should.equal('required');
+			err.errors['name.de'].kind.should.equal('required');
+
+			new Model({
+				name: {
+					en: 'a',
+					de: '123'
+				}
+			}).save(function(err) {
+				should.exist(err);
+				console.log(err);
+				err.errors['name.en'].kind.should.equal('minlength');
+				err.errors['name.de'].kind.should.equal('user defined');
+
+				new Model({
+					name: {
+						en: 'abc',
+						de: 'abc'
+					}
+				}).save(function(err) {
+					should.not.exist(err);
+
+					new Model({
+						name: {
+							en: 'abc',
+							de: 'def'
+						}
+					}).save(function(err) {
+						should.exist(err);
+						err.message.should.match(/dup key/);
+						err.message.should.match(/name.en/);
+
+						done();
+					});
+				});
+			});
+		});
 	});
 };

@@ -93,5 +93,23 @@ module.exports = {
 		return new mongoose.Schema({
 			nested: [nestedSchema]
 		});
+	},
+
+	createI18nValidationSchema: function() {
+		return new mongoose.Schema({
+			name: {
+				type: String,
+				i18n: true,
+				unique: true,
+				required: true,
+				minlength: 3,
+				validate: {
+					validator: function(v) {
+						return /^[A-Z]+$/i.test(v);
+					},
+					message: 'Custom validator failed.'
+				}
+			}
+		});
 	}
 };
