@@ -12,7 +12,7 @@ npm install mongoose-i18n-localize
 
 Create your schema:
 
-```
+```js
 var mongoose = require('mongoose');
 var mongooseI18n = require('mongoose-i18n-localize');
 
@@ -32,7 +32,7 @@ var Model = mongoose.model('Name', schema);
 
 This will create a structure like:
 
-```
+```js
 {
 	name: {
 		en: String,
@@ -41,19 +41,19 @@ This will create a structure like:
 }
 ```
 
-All validators of `name` get assigned to `name.en` and `name.de`.
+All validators of `name` get also assigned to `name.en` and `name.de`.
 
 mongoose-i18n-localize adds the methods `toObjectTranslated(resource, locale)` and `toJSONTranslated(resource, locale)` to the i18n schema. To get a localized object to locale `en`, just do:
 
-```
+```js
 Model.find(function(err, resources) {
 	var localizedResources = Model.schema.toJSONTranslated(resources, 'en');
-})
+});
 ```
 
 `localizedResources` has now the following structure:
 
-```
+```js
 [
 	{
 		name: {
