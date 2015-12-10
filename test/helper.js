@@ -37,7 +37,7 @@ module.exports = {
 		});
 	},
 
-	createI18nNestedObjectArraySchema: function() {
+	createI18nNestedArraySchema: function() {
 		return new mongoose.Schema({
 			nested: [{
 				name: {
@@ -48,7 +48,7 @@ module.exports = {
 		});
 	},
 
-	createI18nNestedNestedObjectArraySchema: function() {
+	createI18nNestedNestedArraySchema: function() {
 		return new mongoose.Schema({
 			nested: [{
 				nested: [{

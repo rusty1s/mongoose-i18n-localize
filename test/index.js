@@ -9,5 +9,5 @@ mongoose.connection.on('error', function() {
 });
 
 describe('Mongoose I18n Localize', function() {
-	require('./tests/message')();
+	require('./tests/i18n')();
 });

@@ -1,51 +1,51 @@
 /* jshint node: true */
 'use strict';
 
-var _ = require('lodash');
-
 module.exports = function(schema, options) {
-	options = options || {
-		locales: ['en', 'de']
-	};
+	var addLocales = function(pathname, schema) {
+		var instance = schema.paths[pathname].instance;
+		var config = schema.paths[pathname].options;
 
-	if (!(options.locales && _.isArray(options.locales) && options.locales.length > 0)) throw 'You must pass an array of locales as an options!';
-
-	options.locales = _.uniq(options.locales);
-
-	schema.eachPath(function(path, config) {
-		if (config.options.i18n) {
-			delete(config.options.i18n);
-			schema.remove(path);
+		if (config.i18n && instance === 'String') {
+			delete(config.i18n);
+			schema.remove(pathname);
 
 			options.locales.forEach(function(locale) {
-				schema.path(path + '.' + locale, config.options);
+				schema.path(pathname + '.' + locale, config);
 			});
 		}
-	});
+	};
 
-	var translate = function(obj, locale, toJSON) {
-		if (options.locales.indexOf(locale) === -1) throw 'You must pass a valid locale';
+	var recursiveIteration = function(schema) {
+		for (var key in schema.paths) {
+			if (schema.paths[key].schema) recursiveIteration(schema.paths[key].schema);
+			else addLocales(schema.paths[key].path, schema);
+		}
+	};
 
-		var addI18n = function(obj) {
+	if (options && options.locales instanceof Array && options.locales.length > 0) recursiveIteration(schema);
+
+	var localize = function(obj, locale, toJSON) {
+		var addLocalized = function(obj) {
 			for (var key in obj) {
 				if (key === '_id') continue;
-				else if (_.isObject(obj[key])) addI18n(obj[key]);
+				else if (typeof obj[key] === 'object') addLocalized(obj[key]);
 				else if (key === locale) obj.localized = obj[key];
 			}
 			return obj;
 		};
 
-		if (_.isArray(obj)) return obj.map(function(object) {
-			return addI18n(toJSON ? object.toJSON() : object.toObject(), locale);
+		if (obj instanceof Array) return obj.map(function(object) {
+			return addLocalized(toJSON ? object.toJSON() : object.toObject(), locale);
 		});
-		else return addI18n(toJSON ? obj.toJSON() : obj.toObject(), locale);
+		else return addLocalized(toJSON ? obj.toJSON() : obj.toObject(), locale);
 	};
 
-	schema.methods.toJSONTranslated = function(obj, locale) {
-		return translate(obj, locale, true);
+	schema.methods.toJSONLocalized = function(obj, locale) {
+		return localize(obj, locale, true);
 	};
 
-	schema.methods.toObjectTranslated = function(obj, locale) {
-		return translate(obj, locale, false);
+	schema.methods.toObjectLocalized = function(obj, locale) {
+		return localize(obj, locale, false);
 	};
 };
