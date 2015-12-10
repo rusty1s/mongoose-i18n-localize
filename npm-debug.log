@@ -1,0 +1,100 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/Cellar/node/5.1.0/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'publish' ]
+2 info using npm@3.3.12
+3 info using node@v5.1.0
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: '/Users/rusty1s/Github/mongoose-i18n-localize',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory /Users/rusty1s/.npm/mongoose-i18n-localize/0.1.0/package.tgz not in flight; packing
+9 info lifecycle mongoose-i18n-localize@0.1.0~prepublish: mongoose-i18n-localize@0.1.0
+10 silly lifecycle mongoose-i18n-localize@0.1.0~prepublish: no script for prepublish, continuing
+11 verbose tar pack [ '/Users/rusty1s/.npm/mongoose-i18n-localize/0.1.0/package.tgz',
+11 verbose tar pack   '/Users/rusty1s/Github/mongoose-i18n-localize' ]
+12 verbose tarball /Users/rusty1s/.npm/mongoose-i18n-localize/0.1.0/package.tgz
+13 verbose folder /Users/rusty1s/Github/mongoose-i18n-localize
+14 verbose addLocalTarball adding from inside cache /Users/rusty1s/.npm/mongoose-i18n-localize/0.1.0/package.tgz
+15 silly cache afterAdd mongoose-i18n-localize@0.1.0
+16 verbose afterAdd /Users/rusty1s/.npm/mongoose-i18n-localize/0.1.0/package/package.json not in flight; writing
+17 verbose afterAdd /Users/rusty1s/.npm/mongoose-i18n-localize/0.1.0/package/package.json written
+18 silly publish { name: 'mongoose-i18n-localize',
+18 silly publish   version: '0.1.0',
+18 silly publish   description: 'Mongoose plugin to support i18n and localization',
+18 silly publish   author:
+18 silly publish    { name: 'Matthias Fey',
+18 silly publish      email: 'matthias.fey@tu-dortmund.de',
+18 silly publish      url: 'https://github.com/rusty1s' },
+18 silly publish   keywords: [ 'mongoose', 'i18n', 'localize', 'mongodb' ],
+18 silly publish   repository:
+18 silly publish    { type: 'git',
+18 silly publish      url: 'git+https://github.com/rusty1s/mongoose-i18n-localize.git' },
+18 silly publish   license: 'MIT',
+18 silly publish   readmeFilename: 'README.md',
+18 silly publish   bugs: { url: 'https://github.com/rusty1s/mongoose-i18n-localize/issues' },
+18 silly publish   main: 'index.js',
+18 silly publish   scripts: { test: 'mocha test' },
+18 silly publish   devDependencies: { mongoose: '^4.2.8', should: '^7.1.1' },
+18 silly publish   readme: '# mongoose-i18n-localize\n\nmongoose-i18n-localize is a mongoose plugin to support i18n and localization in your mongoose schemas.\n\nIt seems like [mongoose-i18n](https://github.com/elrolito/mongoose-i18n) is not longer supported and I didn\'t get it to work on my machine, so I decided to write my own version.\n\n## Usage\n\n```\nnpm install mongoose-i18n-localize\n```\n\nCreate your schema:\n\n```js\nvar mongoose = require(\'mongoose\');\nvar mongooseI18n = require(\'mongoose-i18n-localize\');\n\nvar schema = new mongoose.Schema({\n\tname: {\n\t\ttype: String,\n\t\ti18n: true\n\t}\n});\n\nschema.plugin(mongooseI18n, {\n\tlocales: [\'en\', \'de\']\n});\n\nvar Model = mongoose.model(\'Name\', schema);\n```\n\nThis will create a structure like:\n\n```js\n{\n\tname: {\n\t\ten: String,\n\t\tde: String\n\t}\n}\n```\n\nAll validators of `name` get also assigned to `name.en` and `name.de`.\n\nmongoose-i18n-localize adds the methods `toObjectLocalized(resource, locale)` and `toJSONLocalized(resource, locale)` to the i18n schema. To set the locale of a resource to `en`, just do:\n\n```js\nModel.find(function(err, resources) {\n\tvar localizedResources = Model.schema.toJSONLocalized(resources, \'en\');\n});\n```\n\n`localizedResources` has now the following structure:\n\n```js\n[\n\t{\n\t\tname: {\n\t\t\ten: \'hello\',\n\t\t\tde: \'hallo\',\n\t\t\tlocalized: \'hello\'\n\t\t}\n\t}\n]\n```\n\nUse `toObjectLocalized` or `toJSONLocalized` according to `toObject` or `toJSON`.\n\n# Tests\n\nTo run the tests you need a local MongoDB instance available. Run with:\n\n```\nnpm test\n```\n# Issues\n\nPlease use the GitHub issue tracker to raise any problems or feature requests.\n\nIf you would like to submit a pull request with any changes you make, please feel free!\n',
+18 silly publish   gitHead: '3e3095d07ef4ac4e50d44e1445297663dda9bdca',
+18 silly publish   homepage: 'https://github.com/rusty1s/mongoose-i18n-localize#readme',
+18 silly publish   _id: 'mongoose-i18n-localize@0.1.0',
+18 silly publish   _shasum: '490b7be65e3139b6cc3e9c3184ae3412312915e0',
+18 silly publish   _from: '.' }
+19 verbose getPublishConfig undefined
+20 silly mapToRegistry name mongoose-i18n-localize
+21 silly mapToRegistry using default registry
+22 silly mapToRegistry registry https://registry.npmjs.org/
+23 silly mapToRegistry uri https://registry.npmjs.org/mongoose-i18n-localize
+24 verbose publish registryBase https://registry.npmjs.org/
+25 silly publish uploading /Users/rusty1s/.npm/mongoose-i18n-localize/0.1.0/package.tgz
+26 verbose request uri https://registry.npmjs.org/mongoose-i18n-localize
+27 verbose request sending authorization for write operation
+28 info attempt registry request try #1 at 22:38:04
+29 verbose request using bearer token for auth
+30 verbose request id 7979e0081cab8848
+31 http request PUT https://registry.npmjs.org/mongoose-i18n-localize
+32 http 403 https://registry.npmjs.org/mongoose-i18n-localize
+33 verbose headers { 'content-type': 'application/json',
+33 verbose headers   'cache-control': 'max-age=300',
+33 verbose headers   'content-length': '128',
+33 verbose headers   'accept-ranges': 'bytes',
+33 verbose headers   date: 'Thu, 10 Dec 2015 21:38:06 GMT',
+33 verbose headers   via: '1.1 varnish',
+33 verbose headers   connection: 'keep-alive',
+33 verbose headers   'x-served-by': 'cache-fra1224-FRA',
+33 verbose headers   'x-cache': 'MISS',
+33 verbose headers   'x-cache-hits': '0',
+33 verbose headers   'x-timer': 'S1449783484.261172,VS0,VE1922' }
+34 verbose request invalidating /Users/rusty1s/.npm/registry.npmjs.org/mongoose-i18n-localize on PUT
+35 error publish Failed PUT 403
+36 verbose stack Error: "You cannot publish over the previously published version 0.1.0. Try bumping the version to 1.0.0" : mongoose-i18n-localize
+36 verbose stack     at makeError (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:264:12)
+36 verbose stack     at CachingRegistryClient.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:252:14)
+36 verbose stack     at Request._callback (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:172:14)
+36 verbose stack     at Request.self.callback (/usr/local/lib/node_modules/npm/node_modules/request/request.js:198:22)
+36 verbose stack     at emitTwo (events.js:87:13)
+36 verbose stack     at Request.emit (events.js:172:7)
+36 verbose stack     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1082:10)
+36 verbose stack     at emitOne (events.js:82:20)
+36 verbose stack     at Request.emit (events.js:169:7)
+36 verbose stack     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1009:12)
+37 verbose statusCode 403
+38 verbose pkgid mongoose-i18n-localize
+39 verbose cwd /Users/rusty1s/Github/mongoose-i18n-localize
+40 error Darwin 15.0.0
+41 error argv "/usr/local/Cellar/node/5.1.0/bin/node" "/usr/local/bin/npm" "publish"
+42 error node v5.1.0
+43 error npm  v3.3.12
+44 error code E403
+45 error "You cannot publish over the previously published version 0.1.0. Try bumping the version to 1.0.0" : mongoose-i18n-localize
+46 error If you need help, you may report this error at:
+46 error     <https://github.com/npm/npm/issues>
+47 verbose exit [ 1, true ]
