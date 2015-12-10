@@ -28,7 +28,6 @@
 	},
 	"devDependencies": {
 		"mongoose": "^4.2.8",
-		"mocha": "^2.3.4",
 		"should": "^7.1.1"
 	}
 }
