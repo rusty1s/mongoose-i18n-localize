@@ -43,11 +43,11 @@ This will create a structure like:
 
 All validators of `name` get also assigned to `name.en` and `name.de`.
 
-mongoose-i18n-localize adds the methods `toObjectLocalized(resource, locale)` and `toJSONLocalized(resource, locale)` to the i18n schema. To set the locale of a resource to `en`, just do:
+mongoose-i18n-localize adds the methods `toObjectLocalized(resource, locale)` and `toJSONLocalized(resource, locale)` to the i18n schema methods. To set the locale of a resource to `en`, just do:
 
 ```js
 Model.find(function(err, resources) {
-	var localizedResources = Model.schema.toJSONLocalized(resources, 'en');
+	var localizedResources = Model.schema.methods.toJSONLocalized(resources, 'en');
 });
 ```
 
