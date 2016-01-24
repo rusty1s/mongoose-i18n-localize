@@ -49,7 +49,7 @@ module.exports = function(schema, options) {
 		return localize(obj, locale, false);
 	};
 	
-	var onlyLocalize = function(obj, locale, localeDefault, toJSON) {
+	var localizeOnly = function(obj, locale, localeDefault, toJSON) {
 		var addLocalized = function(obj) {
 			for (var key in obj) {
 				if (key === '_id') continue;
@@ -73,11 +73,11 @@ module.exports = function(schema, options) {
 		else return addLocalized(toJSON ? obj.toJSON() : obj.toObject(), locale);
 	};
 
-	schema.methods.toJSONOnlyLocalized = function(obj, locale, localeDefault) {
-		return onlyLocalize(obj, locale, localeDefault, true);
+	schema.methods.toJSONLocalizedOnly = function(obj, locale, localeDefault) {
+		return localizeOnly(obj, locale, localeDefault, true);
 	};
 
-	schema.methods.toObjectOnlyLocalized = function(obj, locale, localeDefault) {
-		return onlyLocalize(obj, locale, localeDefault, false);
+	schema.methods.toObjectLocalizedOnly = function(obj, locale, localeDefault) {
+		return localizeOnly(obj, locale, localeDefault, false);
 	};
 };
