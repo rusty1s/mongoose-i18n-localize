@@ -67,6 +67,10 @@ Model.find(function(err, resources) {
 
 Use `toObjectLocalized` or `toJSONLocalized` according to `toObject` or `toJSON`.
 
+If you only want to show only one locale message use the methods
+`toObjectLocalizedOnly(resource, locale, localeDefault)` or
+`toJSONLocalizedOnly(resource, locale, localeDefault)`.
+
 # Tests
 
 To run the tests you need a local MongoDB instance available. Run with:

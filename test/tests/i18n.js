@@ -244,7 +244,6 @@ module.exports = function() {
 				}
 			}).save(function(err) {
 				should.exist(err);
-				console.log(err);
 				err.errors['name.en'].kind.should.equal('minlength');
 				err.errors['name.de'].kind.should.equal('user defined');
 
