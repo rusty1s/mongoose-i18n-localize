@@ -48,4 +48,36 @@ module.exports = function(schema, options) {
 	schema.methods.toObjectLocalized = function(obj, locale) {
 		return localize(obj, locale, false);
 	};
+	
+	var localizeOnly = function(obj, locale, localeDefault, toJSON) {
+		var addLocalized = function(obj) {
+			for (var key in obj) {
+				if (key === '_id') continue;
+				else if (typeof obj[key] === 'object') {
+					addLocalized(obj[key]);
+					if(obj[key] && obj[key].localized !== undefined) {
+						obj[key] = obj[key].localized;
+					} else if(localeDefault && obj[key] && obj[key].default !== undefined) {
+						obj[key] = obj[key].default;
+					}
+				}
+				else if (key === locale) obj.localized = obj[key];
+				else if (localeDefault && key === localeDefault) obj.default = obj[key];
+			}
+			return obj;
+		};
+
+		if (obj instanceof Array) return obj.map(function(object) {
+			return addLocalized(toJSON ? object.toJSON() : object.toObject(), locale);
+		});
+		else return addLocalized(toJSON ? obj.toJSON() : obj.toObject(), locale);
+	};
+
+	schema.methods.toJSONLocalizedOnly = function(obj, locale, localeDefault) {
+		return localizeOnly(obj, locale, localeDefault, true);
+	};
+
+	schema.methods.toObjectLocalizedOnly = function(obj, locale, localeDefault) {
+		return localizeOnly(obj, locale, localeDefault, false);
+	};
 };
