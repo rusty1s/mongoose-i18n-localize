@@ -1,7 +1,14 @@
 /* jshint node: true */
 'use strict';
-
+function ArrNoDupe(a) {
+    var temp = {}, r = [], i = 0, k;
+    for (i ; i < a.length; i++) {temp[a[i]] = true;}
+    for (k in temp){ temp.hasOwnProperty(k) && r.push(k); }
+    return r;
+}
 module.exports = function(schema, options) {
+	var options_locales = ArrNoDupe(options.locales||[])
+	;
 	var addLocales = function(pathname, schema) {
 		var instance = schema.paths[pathname].instance;
 		var config = schema.paths[pathname].options;
@@ -10,7 +17,7 @@ module.exports = function(schema, options) {
 			delete(config.i18n);
 			schema.remove(pathname);
 
-			options.locales.forEach(function(locale) {
+			options_locales.forEach(function(locale) {
 				schema.path(pathname + '.' + locale, config);
 			});
 		}
@@ -23,7 +30,7 @@ module.exports = function(schema, options) {
 		}
 	};
 
-	if (options && options.locales instanceof Array && options.locales.length > 0) recursiveIteration(schema);
+	if (options && options_locales instanceof Array && options_locales.length > 0) recursiveIteration(schema);
 
 	var localize = function(obj, locale, toJSON) {
 		var addLocalized = function(obj) {
@@ -42,11 +49,23 @@ module.exports = function(schema, options) {
 	};
 
 	schema.methods.toJSONLocalized = function(obj, locale) {
-		return localize(obj, locale, true);
+		var ret;
+		if (typeof obj === 'object') {
+			ret = localize(obj, locale, true);
+		} else if (typeof obj === 'string' && this.hasOwnProperty('isNew')) {
+			ret = localize(this, obj, true);
+		}
+		return ret;
 	};
 
 	schema.methods.toObjectLocalized = function(obj, locale) {
-		return localize(obj, locale, false);
+		var ret;
+		if (typeof obj === 'object') {
+			ret = localize(obj, locale, false);
+		} else if (typeof obj === 'string' && this.hasOwnProperty('isNew')) {
+			ret = localize(this, obj, false);
+		}
+		return ret;
 	};
 	
 	var localizeOnly = function(obj, locale, localeDefault, toJSON) {
@@ -74,10 +93,22 @@ module.exports = function(schema, options) {
 	};
 
 	schema.methods.toJSONLocalizedOnly = function(obj, locale, localeDefault) {
-		return localizeOnly(obj, locale, localeDefault, true);
+		var ret;
+		if (typeof obj === 'object') {
+			ret = localizeOnly(obj, locale, localeDefault, true);
+		} else if (typeof obj === 'string' && this.hasOwnProperty('isNew')) {
+			ret = localizeOnly(this, obj, locale, true);
+		}
+		return ret;
 	};
 
 	schema.methods.toObjectLocalizedOnly = function(obj, locale, localeDefault) {
-		return localizeOnly(obj, locale, localeDefault, false);
+		var ret;
+		if (typeof obj === 'object') {
+			ret = localizeOnly(obj, locale, localeDefault, false);
+		} else if (typeof obj === 'string' && this.hasOwnProperty('isNew')) {
+			ret = localizeOnly(this, obj, locale, false);
+		}
+		return ret;
 	};
 };
