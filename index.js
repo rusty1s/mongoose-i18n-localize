@@ -72,7 +72,7 @@ module.exports = function(schema, options) {
 		var addLocalized = function(obj) {
 			for (var key in obj) {
 				if (key === '_id') continue;
-				else if (typeof obj[key] === 'object') {
+				else if (typeof obj[key] === 'object' && !(obj[key] instanceof Date)) {
 					addLocalized(obj[key]);
 					if(obj[key] && obj[key].localized !== undefined) {
 						obj[key] = obj[key].localized;
