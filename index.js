@@ -13,7 +13,7 @@ module.exports = function(schema, options) {
 		var instance = schema.paths[pathname].instance;
 		var config = schema.paths[pathname].options;
 
-		if (config.i18n && instance === 'String') {
+		if (config.i18n && (instance === 'String' || instance === 'Date')) {
 			delete(config.i18n);
 			schema.remove(pathname);
 
@@ -72,7 +72,7 @@ module.exports = function(schema, options) {
 		var addLocalized = function(obj) {
 			for (var key in obj) {
 				if (key === '_id') continue;
-				else if (typeof obj[key] === 'object') {
+				else if (typeof obj[key] === 'object' && !(obj[key] instanceof Date)) {
 					addLocalized(obj[key]);
 					if(obj[key] && obj[key].localized !== undefined) {
 						obj[key] = obj[key].localized;
